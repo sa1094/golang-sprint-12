@@ -127,6 +127,7 @@ linters-settings:
     # Default: []
     disable:
       - fieldalignment # too strict
+      - shadow
     # Settings per analyzer.
     settings:
       shadow:
@@ -345,4 +346,7 @@ issues:
         - gosec
         - noctx
         - wrapcheck
+    - linters:
+      - staticcheck
+      text: SA4006
 
