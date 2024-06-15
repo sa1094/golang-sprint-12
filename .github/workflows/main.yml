@@ -1,25 +1,37 @@
-name: Go
+name: PR to main
 
 on:
   pull_request:
     branches: [ "main" ]
 
 jobs:
-  build:
+  tests:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
           go-version: '1.22.x'
+      - name: Run linters
+        uses: golangci/golangci-lint-action@v6 
       - name: Install dependencies
         run: go get ./...
-      - name: Build
-        run: go build -v ./...
-      - name: Test with the Go CLI
+      - name: Run tests
         run: go test -v ./...
         env: 
           DB_PATH: ../../tracker.db
+  
 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22.x'
+      - name: Build
+        run: go build -v ./...
