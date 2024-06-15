@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'feature_*'
     tags:
       - 'v*'
 
@@ -16,8 +17,11 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.22.x'
+          cache-dependency-path: 42-docker-final/go.sum
       - name: Run linters
         uses: golangci/golangci-lint-action@v6
+        with:
+          working-directory: 42-docker-final
 
   tests:
     needs: [lint]
@@ -29,8 +33,9 @@ jobs:
         uses: actions/setup-go@v5
         with:
           go-version: '1.22.x'
+          cache-dependency-path: 42-docker-final/go.sum
       - name: Run tests
-        run: go test -v ./...
+        run: cd 42-docker-final && go test -v ./...
         env:
           DB_PATH: ../../tracker.db
   deploy:
