@@ -16,6 +16,8 @@ jobs:
           go-version: '1.22.x'
       - name: Run linters
         uses: golangci/golangci-lint-action@v6 
+        with:
+          working-directory: 42-docker-final
 
   tests:
     needs: [lint]
