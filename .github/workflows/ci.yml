@@ -1,4 +1,4 @@
-name: PR to main
+name: Golang integration
 
 on:
   pull_request:
